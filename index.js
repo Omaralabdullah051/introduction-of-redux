@@ -2,6 +2,13 @@ const redux = require("redux");
 const createStore = redux.createStore;
 const bindActionCreators = redux.bindActionCreators;
 const combineReducers = redux.combineReducers;
+const applyMiddleware = redux.applyMiddleware;
+
+//*need to install redux-logger (npm i redux-logger)
+//*It is a library that logs actions in developer console.
+//*It is used as a middleware in redux to logs actions.
+const reduxLogger = require("redux-logger");
+const logger = reduxLogger.createLogger();
 
 const CAKE_ORDERED = "CAKE_ORDERED";
 const CAKE_RESTOCKED = "CAKE_RESTOCKED";
@@ -84,12 +91,9 @@ const rootReducer = combineReducers({
   iceCream: iceCreamReducer,
 });
 
-const store = createStore(rootReducer);
-console.log("Initial state", store.getState());
+const store = createStore(rootReducer, applyMiddleware(logger));
 
-const unSubscribe = store.subscribe(() =>
-  console.log("Updated state", store.getState())
-);
+const unSubscribe = store.subscribe(() => {});
 
 // store.dispatch(orderCake());
 // store.dispatch(orderCake());
